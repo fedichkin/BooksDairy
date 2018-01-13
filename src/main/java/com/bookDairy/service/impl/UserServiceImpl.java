@@ -10,12 +10,12 @@ import org.springframework.stereotype.Service;
 /**
  * Created by User on 16.11.2017.
  */
-@Service
+//@Service
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-    @Autowired
+//    @Autowired
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
