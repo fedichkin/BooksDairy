@@ -12,12 +12,12 @@ import java.util.List;
 /**
  * Created by Maryna Kontar.
  */
-@Service
+//@Service
 public class BookServiceImpl implements BookService {
-    @Autowired
+
     private final BookRepository bookRepository;
 
-    @Autowired
+//    @Autowired
     public BookServiceImpl(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }

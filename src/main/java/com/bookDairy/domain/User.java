@@ -6,9 +6,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 /**
  * Created by Maryna Kontar.
  */
-@Document(collection = "user")
+//@Document(collection = "user")
 public class User{
-    @Id
+//    @Id
     private Long id;
     private String username;
     private String password;

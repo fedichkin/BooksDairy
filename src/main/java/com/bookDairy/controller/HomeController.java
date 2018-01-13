@@ -15,13 +15,13 @@ import javax.annotation.PostConstruct;
 
 @RestController
 public class HomeController {
-//
-    private final UserService userService;
 
-    @Autowired
-    public HomeController(UserService userService) {
-        this.userService = userService;
-    }
+//    private final UserService userService;
+//
+//    @Autowired
+//    public HomeController(UserService userService) {
+//        this.userService = userService;
+//    }
 
     @GetMapping("/")
     public String sayHello(){

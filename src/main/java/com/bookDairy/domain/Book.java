@@ -6,10 +6,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 /**
  * Created by Maryna Kontar.
  */
-@Document(collection = "book")
+//@Document(collection = "book")
 public class Book {
 
-	@Id
+//	@Id
 	private Long id;
 	private String title;
 	private String author;

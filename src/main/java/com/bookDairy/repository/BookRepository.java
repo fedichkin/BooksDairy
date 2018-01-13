@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by Maryna Kontar.
  */
-@Repository
+//@Repository
 public interface BookRepository extends MongoRepository<Book,Long>{
     List<Book> findAllByCategory(String category);
 
