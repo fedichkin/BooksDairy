@@ -6,7 +6,6 @@ import com.bookDairy.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 /**
  * Created by User on 16.11.2017.
  */
@@ -22,7 +21,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User get(Long id) {
-        return null;
+        return userRepository.findOne(id);
     }
 
     @Override
@@ -30,14 +29,15 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
+    //TODO
     @Override
     public User update(User user) {
-        return null;
+        throw new RuntimeException("The update(User user) method is not yet written.");
     }
 
     @Override
-    public User delete(User user) {
-        return null;
+    public void delete(Long id) {
+        userRepository.delete(id);
     }
 
     @Override

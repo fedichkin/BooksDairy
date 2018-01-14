@@ -1,6 +1,7 @@
 package com.bookDairy.service;
 
 import com.bookDairy.domain.Book;
+import com.bookDairy.domain.Record;
 
 import java.util.List;
 
@@ -9,9 +10,10 @@ import java.util.List;
  */
 public interface BookService {
 
-    Book getBook(Long id);
-    Book saveBook(Book book);
-    Book updateBook(Book book);
-    Book deleteBook(Book book);
-    List<Book> getAllBooks();
+    Book get(Long id);
+    Book save(Book book);
+    Book update(Book book);
+    void delete(Long id);
+    List<Book> getAll();
+    Record saveRecordForBook(Long bookId, Record record);
 }

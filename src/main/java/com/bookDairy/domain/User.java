@@ -1,7 +1,10 @@
 package com.bookDairy.domain;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.List;
 
 /**
  * Created by Maryna Kontar.
@@ -15,7 +18,8 @@ public class User{
     private String firstName;
     private String lastName;
     private String email;
-    private String phone;
+//    @DBRef
+    private List<Book> bookList;
 
     public Long getId() {
         return id;
@@ -65,11 +69,11 @@ public class User{
         this.email = email;
     }
 
-    public String getPhone() {
-        return phone;
+    public List<Book> getBookList() {
+        return bookList;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setBookList(List<Book> bookList) {
+        this.bookList = bookList;
     }
 }

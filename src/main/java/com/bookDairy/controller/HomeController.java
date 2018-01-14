@@ -1,9 +1,10 @@
 package com.bookDairy.controller;
 
-import com.bookDairy.domain.User;
+import com.bookDairy.domain.Book;
+import com.bookDairy.domain.Record;
+import com.bookDairy.service.BookService;
 import com.bookDairy.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,10 +18,12 @@ import javax.annotation.PostConstruct;
 public class HomeController {
 //
     private final UserService userService;
+    private final BookService bookService;
 
     @Autowired
-    public HomeController(UserService userService) {
+    public HomeController(UserService userService, BookService bookService) {
         this.userService = userService;
+        this.bookService = bookService;
     }
 
     @GetMapping("/")
@@ -28,15 +31,21 @@ public class HomeController {
         return "Hello, Junior Java Free Start!";
     }
 
-//    @PostConstruct
-//    public void createInitUser() {
-//        User user = new User();
-//        user.setId(1L);
-//        user.setUsername("Maryna");
-//        user.setFirstName("Maryna");
-//        user.setLastName("Kontar");
-//        user.setEmail("marina.acoustic@gmail.com");
-//
-//        userService.save(user);
-//    }
+    @PostConstruct
+    public void createInitUser() {
+        Book book = new Book();
+        book.setId(1L);
+        book.setTitle("Effective Java");
+        book.setAuthor("Joshua Bloch");
+        book = bookService.save(book);
+
+        Record record = new Record();
+        record.setId(1L);
+        record.setTitle("Builder");
+        record.setDescription("Use the Builder template " +
+                "when you have to deal with a large number of constructor parameters");
+
+        bookService.saveRecordForBook(book.getId(), record);
+    }
+
 }
