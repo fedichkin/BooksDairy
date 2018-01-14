@@ -1,7 +1,10 @@
 package com.bookDairy.domain;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.List;
 
 /**
  * Created by Maryna Kontar.
@@ -13,15 +16,15 @@ public class Book {
 	private Long id;
 	private String title;
 	private String author;
-	private String publisher;
-	private String publicationDate;
-	private String language;
-	private String category;
-	private int numberOfPages;
-	private String description;
+	private String about;
 
-	public Book() {
-	}
+		//TODO find how store image in mongo: with GridFsTemplate (File image) or like binary (Binary image) or
+	// save only link to image ign file system (or cloud)
+//	private File image;
+//	private Binary image;
+
+	@DBRef //If you do not use @DBRef here, there will be an infinite number of nested entries in the document
+	private List<Record> recordList;
 
 	public Long getId() {
 		return id;
@@ -47,51 +50,20 @@ public class Book {
 		this.author = author;
 	}
 
-	public String getPublisher() {
-		return publisher;
+
+	public String getAbout() {
+		return about;
 	}
 
-	public void setPublisher(String publisher) {
-		this.publisher = publisher;
+	public void setAbout(String about) {
+		this.about = about;
 	}
 
-	public String getPublicationDate() {
-		return publicationDate;
+	public List<Record> getRecordList() {
+		return recordList;
 	}
 
-	public void setPublicationDate(String publicationDate) {
-		this.publicationDate = publicationDate;
-	}
-
-	public String getLanguage() {
-		return language;
-	}
-
-	public void setLanguage(String language) {
-		this.language = language;
-	}
-
-	public String getCategory() {
-		return category;
-	}
-
-	public void setCategory(String category) {
-		this.category = category;
-	}
-
-	public int getNumberOfPages() {
-		return numberOfPages;
-	}
-
-	public void setNumberOfPages(int numberOfPages) {
-		this.numberOfPages = numberOfPages;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
+	public void setRecordList(List<Record> recordList) {
+		this.recordList = recordList;
 	}
 }
