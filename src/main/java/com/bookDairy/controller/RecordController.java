@@ -2,6 +2,7 @@ package com.bookDairy.controller;
 
 import com.bookDairy.domain.Record;
 import com.bookDairy.service.RecordService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,19 +20,14 @@ import java.util.Map;
 @RequestMapping("/books/{book_id}/records")
 public class RecordController {
 
-    private RecordService recordService;
+    private final RecordService recordService;
     private Map<String, Object> headers;
-//    private HttpHeaders httpHeaders ;
 
-
-    public RecordController(RecordService recordService, Map<String, Object> headers
-//            , HttpHeaders httpHeaders
-    ) {
+    @Autowired
+    public RecordController(RecordService recordService) {
         this.recordService = recordService;
-        this.headers = headers;
+        headers = new HashMap<>();
         headers.put("success", true);
-//        this.httpHeaders = httpHeaders;
-//        httpHeaders.add("success", "true");
     }
 
     @GetMapping(produces = "application/json")
@@ -64,11 +60,8 @@ public class RecordController {
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<Map<String, Object>> handleException(RuntimeException ex, HttpServletRequest request) {
-        //TODO 1 Ярик, посмотри, как тебе лучше получать headers. Через Map<String, Object> headers или  HttpHeaders httpHeaders?
-//        HttpHeaders httpHeaders = new HttpHeaders();
-//        httpHeaders.add("success", "false");
-//        httpHeaders.add("messageError", "Something wrong: " + ex.getMessage());
-//        return new ResponseEntity<>(httpHeaders, HttpStatus.BAD_REQUEST);
+        //TODO 1 Ярик, посмотри, как тебе лучше получать headers. Через Map<String, Object> headers
+        //TODO 1 или  HttpHeaders httpHeaders (cм. BookController)?
 
         Map<String, Object> headers = new HashMap<>();
         headers.put("success", false);

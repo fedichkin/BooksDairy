@@ -19,12 +19,13 @@ import java.util.List;
  */
 @Service
 public class BookServiceImpl implements BookService {
-    @Autowired
+
     private final BookRepository bookRepository;
     private final RecordRepository recordRepository;
 
     @Autowired
-    public BookServiceImpl(BookRepository bookRepository, RecordRepository recordRepository) {
+    public BookServiceImpl(BookRepository bookRepository, RecordRepository recordRepository
+    ) {
         this.bookRepository = bookRepository;
         this.recordRepository = recordRepository;
     }
@@ -50,8 +51,11 @@ public class BookServiceImpl implements BookService {
     public void delete(Long id) {
         //TODO delete all records for book if architecture of project use separate collections for books and records
 
-        //delete from all records from book in "record" collection
-        recordRepository.findAll().removeIf(record -> record.getBook().getId().equals(id));
+        //delete all records from book in "record" collection
+        recordRepository.findAll()
+                .stream()
+                .filter(record -> (record.getBook().getId().equals(id)))
+                .forEach(record -> recordRepository.delete(record.getId()));
 
         //delete from "book" collection
         bookRepository.delete(id);

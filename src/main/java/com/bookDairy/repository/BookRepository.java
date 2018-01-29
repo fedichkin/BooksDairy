@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
  * Created by Maryna Kontar.
  */
 @Repository
-public interface BookRepository extends MongoRepository<Book,Long>{
-
+public interface BookRepository extends MongoRepository<Book, Long>{
 
 }

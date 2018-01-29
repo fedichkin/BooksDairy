@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.config.EnableMongoAuditing;
  */
 
 @SpringBootApplication
-@EnableMongoAuditing
+//@EnableMongoAuditing
 public class BookDiaryApplication
     //		extends SpringBootServletInitializer //need if we want to create a deployable war file
 {

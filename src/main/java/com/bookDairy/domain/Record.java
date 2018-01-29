@@ -21,7 +21,7 @@ public class Record {
     private Date created;
     @LastModifiedDate
     private Date modified;
-//    @DBRef
+    @DBRef(lazy = true)
     private Book book;
 
 

@@ -28,9 +28,6 @@ public class Book {
 //	private File image;
 //	private Binary image;
 
-	@DBRef(lazy = true) //If you do not use @DBRef here, there will be an infinite number of nested entries in the document
-	private List<Record> recordList;
-
 	public Long getId() {
 		return id;
 	}
@@ -71,11 +68,4 @@ public class Book {
 		this.user = user;
 	}
 
-	public List<Record> getRecordList() {
-		return recordList;
-	}
-
-	public void setRecordList(List<Record> recordList) {
-		this.recordList = recordList;
-	}
 }

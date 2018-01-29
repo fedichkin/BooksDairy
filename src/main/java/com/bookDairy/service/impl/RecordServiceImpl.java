@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RecordServiceImpl implements RecordService{
@@ -25,73 +27,51 @@ public class RecordServiceImpl implements RecordService{
 
     @Override
     public Record get(Long bookId, Long recordId) {
-//        return recordRepository.findOne(recordId);
         Book book = bookRepository.findOne(bookId);
-        return book.getRecordList()
-                .stream()
-                .filter(record -> record.getId() == recordId)
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("There is no record"));//TODO custom exception and message
+        if (book==null) {throw new RuntimeException("There isn't book with this record.");}
+
+        return recordRepository.findOne(recordId);
     }
 
     @Override
     public Record save(Long bookId, Record record) {
         Book book = bookRepository.findOne(bookId);
+        if (book==null) {throw new RuntimeException("There isn't book.");}
 
         //save to "record" collection
         record.setBook(book);
-        record = recordRepository.save(record);
-
-        //save to "book" collection
-        List<Record> records = book.getRecordList();
-        if(records == null){records = new ArrayList<>(); }
-        records.add(record);
-        book.setRecordList(records);
-        book = bookRepository.save(book);
-
-        return record;
+        return recordRepository.save(record);
     }
 
     @Override
     public Record update(Long bookId, Long id, Record record) {
-//        throw new RuntimeException("The update(Record record) method is not yet written.");
 
         Book book = bookRepository.findOne(bookId);
-
-        //update in "book" collection
-        List<Record> records = book.getRecordList();
-        if(records == null){records = new ArrayList<>(); }
-        records.removeIf(rec -> rec.getId().equals(id));
-        records.add(record);
-        book.setRecordList(records);
-        book = bookRepository.save(book);
+        if (book==null) {throw new RuntimeException("There isn't book.");}
 
         //update in "record" collection
         record.setBook(book);
-        record = recordRepository.save(record);
-
-        return record;
+        return recordRepository.save(record);
     }
 
     @Override
     public void delete(Long bookId, Long id) {
         Book book = bookRepository.findOne(bookId);
+        if (book==null) {throw new RuntimeException("There isn't book.");}
 
         //delete from "record" collection
         recordRepository.delete(id);
-
-        //delete from "book" collection
-        List<Record> records = book.getRecordList();
-        if(records == null){records = new ArrayList<>(); }
-        records.removeIf(record -> record.getId().equals(id));
-        book.setRecordList(records);
-        bookRepository.save(book);
 
     }
 
     @Override
     public List<Record> getAll(Long bookId) {
         Book book = bookRepository.findOne(bookId);
-        return book.getRecordList();
+        if (book==null) {throw new RuntimeException("There isn't book.");}
+
+        return recordRepository.findAll().stream()
+                .filter(record -> record.getBook()
+                .getId()==bookId)
+                .collect(Collectors.toList());
     }
 }
