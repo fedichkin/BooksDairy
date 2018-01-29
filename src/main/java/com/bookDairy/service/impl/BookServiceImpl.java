@@ -5,7 +5,9 @@ import com.bookDairy.domain.Record;
 import com.bookDairy.repository.BookRepository;
 import com.bookDairy.repository.RecordRepository;
 import com.bookDairy.service.BookService;
+import com.mongodb.client.model.Sorts;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,12 +19,13 @@ import java.util.List;
  */
 @Service
 public class BookServiceImpl implements BookService {
-    @Autowired
+
     private final BookRepository bookRepository;
     private final RecordRepository recordRepository;
 
     @Autowired
-    public BookServiceImpl(BookRepository bookRepository, RecordRepository recordRepository) {
+    public BookServiceImpl(BookRepository bookRepository, RecordRepository recordRepository
+    ) {
         this.bookRepository = bookRepository;
         this.recordRepository = recordRepository;
     }
@@ -46,7 +49,15 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void delete(Long id) {
-        //TODO delete all records for book
+        //TODO delete all records for book if architecture of project use separate collections for books and records
+
+        //delete all records from book in "record" collection
+        recordRepository.findAll()
+                .stream()
+                .filter(record -> (record.getBook().getId().equals(id)))
+                .forEach(record -> recordRepository.delete(record.getId()));
+
+        //delete from "book" collection
         bookRepository.delete(id);
     }
 
@@ -55,17 +66,5 @@ public class BookServiceImpl implements BookService {
         return bookRepository.findAll();
     }
 
-    @Override
-    public Record saveRecordForBook(Long bookId, Record record) {
-        Book book = bookRepository.findOne(bookId);
-        record.setBook(book);
-        record = recordRepository.save(record);
-        List<Record> records = book.getRecordList();
-        if(records == null){records = new ArrayList<>(); }
-        records.add(record);
-        book.setRecordList(records);
-        bookRepository.save(book);
-        return null;
-    }
 
 }

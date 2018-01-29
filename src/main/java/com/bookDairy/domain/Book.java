@@ -1,9 +1,12 @@
 package com.bookDairy.domain;
 
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,14 +20,13 @@ public class Book {
 	private String title;
 	private String author;
 	private String about;
+	@DBRef
+	private User user;
 
-		//TODO find how store image in mongo: with GridFsTemplate (File image) or like binary (Binary image) or
-	// save only link to image ign file system (or cloud)
+//TODO Image find how store image in mongo: with GridFsTemplate (File image) or like binary (Binary image) or
+// save only link to image ign file system (or cloud)
 //	private File image;
 //	private Binary image;
-
-	@DBRef //If you do not use @DBRef here, there will be an infinite number of nested entries in the document
-	private List<Record> recordList;
 
 	public Long getId() {
 		return id;
@@ -50,7 +52,6 @@ public class Book {
 		this.author = author;
 	}
 
-
 	public String getAbout() {
 		return about;
 	}
@@ -59,11 +60,12 @@ public class Book {
 		this.about = about;
 	}
 
-	public List<Record> getRecordList() {
-		return recordList;
+	public User getUser() {
+		return user;
 	}
 
-	public void setRecordList(List<Record> recordList) {
-		this.recordList = recordList;
+	public void setUser(User user) {
+		this.user = user;
 	}
+
 }

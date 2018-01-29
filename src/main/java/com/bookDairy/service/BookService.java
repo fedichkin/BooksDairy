@@ -15,5 +15,4 @@ public interface BookService {
     Book update(Book book);
     void delete(Long id);
     List<Book> getAll();
-    Record saveRecordForBook(Long bookId, Record record);
 }

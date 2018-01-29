@@ -3,12 +3,14 @@ package com.bookDairy.domain;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 
 @Document(collection = "record")
+@EnableMongoAuditing
 public class Record {
 
     @Id
@@ -19,8 +21,9 @@ public class Record {
     private Date created;
     @LastModifiedDate
     private Date modified;
-//    @DBRef
+    @DBRef(lazy = true)
     private Book book;
+
 
     public Long getId() {
         return id;

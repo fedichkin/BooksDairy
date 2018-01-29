@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * Created by User on 16.11.2017.
+ *  Created by Maryna Kontar.
  */
 @Service
 public class UserServiceImpl implements UserService {
@@ -20,8 +20,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User get(Long id) {
-        return userRepository.findOne(id);
+    public User get(String username) {
+        return userRepository.findOne(username);
     }
 
     @Override
@@ -36,8 +36,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(Long id) {
-        userRepository.delete(id);
+    public void delete(String username) {
+        userRepository.delete(username);
     }
 
     @Override
