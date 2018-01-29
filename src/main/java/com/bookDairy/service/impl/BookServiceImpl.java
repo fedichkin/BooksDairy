@@ -5,7 +5,9 @@ import com.bookDairy.domain.Record;
 import com.bookDairy.repository.BookRepository;
 import com.bookDairy.repository.RecordRepository;
 import com.bookDairy.service.BookService;
+import com.mongodb.client.model.Sorts;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -46,7 +48,12 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void delete(Long id) {
-        //TODO delete all records for book
+        //TODO delete all records for book if architecture of project use separate collections for books and records
+
+        //delete from all records from book in "record" collection
+        recordRepository.findAll().removeIf(record -> record.getBook().getId().equals(id));
+
+        //delete from "book" collection
         bookRepository.delete(id);
     }
 
@@ -55,17 +62,5 @@ public class BookServiceImpl implements BookService {
         return bookRepository.findAll();
     }
 
-    @Override
-    public Record saveRecordForBook(Long bookId, Record record) {
-        Book book = bookRepository.findOne(bookId);
-        record.setBook(book);
-        record = recordRepository.save(record);
-        List<Record> records = book.getRecordList();
-        if(records == null){records = new ArrayList<>(); }
-        records.add(record);
-        book.setRecordList(records);
-        bookRepository.save(book);
-        return null;
-    }
 
 }

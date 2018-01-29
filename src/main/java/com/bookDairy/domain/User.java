@@ -12,22 +12,22 @@ import java.util.List;
 @Document(collection = "user")
 public class User{
     @Id
-    private Long id;
+//    private Long id;
     private String username;
     private String password;
     private String firstName;
     private String lastName;
     private String email;
 //    @DBRef
-    private List<Book> bookList;
+//    private List<Book> bookList;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+//    public Long getId() {
+//        return id;
+//    }
+//
+//    public void setId(Long id) {
+//        this.id = id;
+//    }
 
     public String getUsername() {
         return username;
@@ -68,12 +68,12 @@ public class User{
     public void setEmail(String email) {
         this.email = email;
     }
-
-    public List<Book> getBookList() {
-        return bookList;
-    }
-
-    public void setBookList(List<Book> bookList) {
-        this.bookList = bookList;
-    }
+//
+//    public List<Book> getBookList() {
+//        return bookList;
+//    }
+//
+//    public void setBookList(List<Book> bookList) {
+//        this.bookList = bookList;
+//    }
 }

@@ -7,10 +7,10 @@ import com.bookDairy.domain.User;
  */
 public interface UserService {
 
-    User get(Long id);
+    User get(String username);
     User save(User user);
     User update(User user);
-    void delete(Long id);
+    void delete(String username);
     User findByUsername(String username);
     User findByEmail(String email);
 
