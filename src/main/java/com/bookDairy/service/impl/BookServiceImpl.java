@@ -7,6 +7,7 @@ import com.bookDairy.repository.RecordRepository;
 import com.bookDairy.service.BookService;
 import com.mongodb.client.model.Sorts;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -23,15 +24,21 @@ public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final RecordRepository recordRepository;
 
+    @Value("${error.noBookFind}")
+    private String noBookFind;
+
+    @Value("${error.noBooksFound}")
+    private String noBooksFound;
+
     @Autowired
-    public BookServiceImpl(BookRepository bookRepository, RecordRepository recordRepository
-    ) {
+    public BookServiceImpl(BookRepository bookRepository, RecordRepository recordRepository) {
         this.bookRepository = bookRepository;
         this.recordRepository = recordRepository;
     }
 
     @Override
     public Book get(Long id) {
+        if (!bookRepository.exists(id)) {throw new RuntimeException(noBookFind);}
         return bookRepository.findOne(id);
     }
 
@@ -43,13 +50,15 @@ public class BookServiceImpl implements BookService {
     //TODO
     @Override
     public Book update(Book book) {
-//        throw new RuntimeException("The update(Book book) method is not yet written.");
+        if (!bookRepository.exists(book.getId())) {throw new RuntimeException(noBookFind);}
     return bookRepository.save(book);
     }
 
     @Override
     public void delete(Long id) {
         //TODO delete all records for book if architecture of project use separate collections for books and records
+
+        if (!bookRepository.exists(id)) {throw new RuntimeException(noBookFind);}
 
         //delete all records from book in "record" collection
         recordRepository.findAll()
@@ -63,8 +72,8 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<Book> getAll() {
+        if (bookRepository.count()==0) {throw new RuntimeException(noBooksFound);}
         return bookRepository.findAll();
     }
-
 
 }
