@@ -30,7 +30,7 @@ public class HomeController {
         this.recordService = recordService;
     }
 
-    @GetMapping("/")
+    @GetMapping("/api/")
     public String sayHello(){
         return "Hello, Junior Java Free Start!";
     }
@@ -43,14 +43,14 @@ public class HomeController {
         userService.save(user);
 
         Book book = new Book();
-        book.setId(1L);
+//        book.setId(1L);
         book.setUser(user);
         book.setTitle("Effective Java");
         book.setAuthor("Joshua Bloch");
         book = bookService.save(book);
 
         Record record = new Record();
-        record.setId(1L);
+//        record.setId(1L);
         record.setTitle("Builder");
         record.setDescription("Use the Builder template " +
                 "when you have to deal with a large number of constructor parameters");
@@ -58,7 +58,7 @@ public class HomeController {
         recordService.save(book.getId(), record);
 
         Record record1 = new Record();
-        record1.setId(2L);
+//        record1.setId(2L);
         record1.setTitle("Builder1");
         record1.setDescription("1111Use the Builder template " +
                 "when you have to deal with a large number of constructor parameters");
