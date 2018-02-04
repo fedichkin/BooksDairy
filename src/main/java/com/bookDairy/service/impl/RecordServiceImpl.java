@@ -3,6 +3,7 @@ package com.bookDairy.service.impl;
 import com.bookDairy.domain.Book;
 import com.bookDairy.domain.Record;
 import com.bookDairy.repository.BookRepository;
+import com.bookDairy.repository.IdCounterRepository;
 import com.bookDairy.repository.RecordRepository;
 import com.bookDairy.service.RecordService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ public class RecordServiceImpl implements RecordService{
 
     private final RecordRepository recordRepository;
     private final BookRepository bookRepository;
+    private final IdCounterRepository idCounterRepository;
 
     @Value("${error.noBookFind}")
     private String noBookFind;
@@ -29,9 +31,10 @@ public class RecordServiceImpl implements RecordService{
     private String noRecordFind;
 
     @Autowired
-    public RecordServiceImpl(RecordRepository recordRepository, BookRepository bookRepository) {
+    public RecordServiceImpl(RecordRepository recordRepository, BookRepository bookRepository, IdCounterRepository idCounterRepository) {
         this.recordRepository = recordRepository;
         this.bookRepository = bookRepository;
+        this.idCounterRepository = idCounterRepository;
     }
 
     @Override
@@ -42,10 +45,16 @@ public class RecordServiceImpl implements RecordService{
         return recordRepository.findOne(id);
     }
 
+    //!!! Now the id is auto-generated. If you add the id manually, the document may be overwritten
     @Override
     public Record save(Long bookId, Record record) {
         if (!bookRepository.exists(bookId)) {throw new RuntimeException(noBookFind);}
         Book book = bookRepository.findOne(bookId);
+
+        //set next id to record
+        if(record.getId() == null || !recordRepository.exists(record.getId())){
+            record.setId(idCounterRepository.getNextSequence("record"));
+        }
 
         //save to "record" collection
         record.setBook(book);
