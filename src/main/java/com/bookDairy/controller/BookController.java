@@ -17,7 +17,7 @@ import java.util.Map;
  * Created by Maryna Kontar.
  */
 @RestController
-@RequestMapping("/books")
+@RequestMapping("/api/books")
 public class BookController {
 
     private final BookService bookService;

@@ -3,6 +3,7 @@ package com.bookDairy.service.impl;
 import com.bookDairy.domain.Book;
 import com.bookDairy.domain.Record;
 import com.bookDairy.repository.BookRepository;
+import com.bookDairy.repository.IdCounterRepository;
 import com.bookDairy.repository.RecordRepository;
 import com.bookDairy.service.BookService;
 import com.mongodb.client.model.Sorts;
@@ -23,6 +24,7 @@ public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
     private final RecordRepository recordRepository;
+    private final IdCounterRepository idCounterRepository;
 
     @Value("${error.noBookFind}")
     private String noBookFind;
@@ -31,9 +33,10 @@ public class BookServiceImpl implements BookService {
     private String noBooksFound;
 
     @Autowired
-    public BookServiceImpl(BookRepository bookRepository, RecordRepository recordRepository) {
+    public BookServiceImpl(BookRepository bookRepository, RecordRepository recordRepository, IdCounterRepository idCounterRepository) {
         this.bookRepository = bookRepository;
         this.recordRepository = recordRepository;
+        this.idCounterRepository = idCounterRepository;
     }
 
     @Override
@@ -42,8 +45,11 @@ public class BookServiceImpl implements BookService {
         return bookRepository.findOne(id);
     }
 
+    //!!! Now the id is auto-generated. If you add the id manually, the document may be overwritten
     @Override
     public Book save(Book book) {
+        if (book.getId() == null || !bookRepository.exists(book.getId())){
+            book.setId(idCounterRepository.getNextSequence("book"));}
         return bookRepository.save(book);
     }
 
