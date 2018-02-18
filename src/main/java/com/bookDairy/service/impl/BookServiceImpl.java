@@ -73,6 +73,10 @@ public class BookServiceImpl implements BookService {
                 .forEach(record -> recordRepository.delete(record.getId()));
 
         //delete from "book" collection
+//        for (int i = 0; i < ; i++) {
+//
+//        }
+
         bookRepository.delete(id);
     }
 

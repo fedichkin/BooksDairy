@@ -3,14 +3,19 @@ package com.bookDairy.controller;
 import com.bookDairy.domain.Book;
 import com.bookDairy.domain.Record;
 import com.bookDairy.domain.User;
+import com.bookDairy.domain.enums.Role;
 import com.bookDairy.service.BookService;
 import com.bookDairy.service.RecordService;
 import com.bookDairy.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Maryna Kontar.
@@ -22,15 +27,20 @@ public class HomeController {
     private final UserService userService;
     private final BookService bookService;
     private final RecordService recordService;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    public HomeController(UserService userService, BookService bookService, RecordService recordService) {
+
+    public HomeController(UserService userService, BookService bookService, RecordService recordService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.bookService = bookService;
         this.recordService = recordService;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    @GetMapping("/api/")
+    @Autowired
+
+
+    @GetMapping("/api")
     public String sayHello(){
         return "Hello, Junior Java Free Start!";
     }
@@ -38,8 +48,11 @@ public class HomeController {
     @PostConstruct
     public void createInitEntities() {
         User user = new User();
-        user.setUsername("Maryna");
-        user.setPassword("password");
+        user.setUsername("user");
+        user.setPassword(passwordEncoder.encode("password"));
+        Set<Role> roles = new HashSet<>();
+        roles.add(Role.USER);
+        user.setRoles(roles);
         userService.save(user);
 
         Book book = new Book();
