@@ -1,10 +1,11 @@
 package com.bookDairy.domain;
 
+import com.bookDairy.domain.enums.Role;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Maryna Kontar.
@@ -17,6 +18,7 @@ public class User{
     private String firstName;
     private String lastName;
     private String email;
+    private Set<Role> roles;
 
     public String getUsername() {
         return username;
@@ -56,5 +58,13 @@ public class User{
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }
